@@ -50,8 +50,9 @@ function App() {
       <ul>
         { results.map(result =>
           <li key={ result.id }>
-            Titolo:{ result.title }
-            <div>Titolo originale:{ result.original_title }</div>
+            {/* uso .title e .original:title per i film e .name e .original_name per le serie tv */}
+            <div>Titolo:{ result.title || result.name }</div>
+            <div>Titolo originale:{ result.original_title || result.original_name }</div>
             {/* Se la lingua è presente nell'oggetto flags mostra la bandiera altrimenti mostra solo le iniziali della lingua */ }
             Lingua:{ flags[result.original_language] ? (<img className="flagImage" src={ flags[result.original_language] } alt="language" />) : (<span> { result.original_language }</span>) }
             <div>Voto:{ result.vote_average }</div>
