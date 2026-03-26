@@ -34,7 +34,7 @@ function App() {
       <button onClick={ handleButton }>search</button>
 
       <ul>
-        { movies.map(movie => <li key={ movie.id }>{ movie.title }</li>) }
+        { movies.map(movie => <li key={ movie.id }>{ movie.title } { movie.original_title } { movie.original_language } { movie.vote_average }</li>) }
       </ul>
     </>
   )
