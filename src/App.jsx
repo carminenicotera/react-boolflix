@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 
 const api_url = `https://api.themoviedb.org`
+const image_url = 'https://image.tmdb.org/t/p/'
+const image_size = 'w342'
 
 const flags = {
   it: "/Flag_of_Italy.svg.png",
@@ -50,6 +52,7 @@ function App() {
       <ul>
         { results.map(result =>
           <li key={ result.id }>
+            <img src={`${image_url}${image_size}${result.poster_path}`} alt="movie poster" />
             {/* uso .title e .original:title per i film e .name e .original_name per le serie tv */}
             <div>Titolo:{ result.title || result.name }</div>
             <div>Titolo originale:{ result.original_title || result.original_name }</div>
