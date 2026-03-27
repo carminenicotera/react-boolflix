@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import AppHeader from "./components/AppHeader";
 
 const api_url = `https://api.themoviedb.org`
 const image_url = 'https://image.tmdb.org/t/p/'
@@ -34,6 +35,7 @@ function App() {
     return axios.get(`${api_url}/3/search/tv?api_key=${API_KEY}&query=${searchBar}`)
   }
 
+  // Eseguo due chiamate API in parallelo e unisco i risultati in un unico array
   function handleSubmit(e) {
     e.preventDefault()
 
@@ -46,6 +48,7 @@ function App() {
       })
   }
 
+  // funzione per inserire il voto con stelle da una a cinque
   function addStars(vote) {
     // calcolo quante stelle vanno inserite
     const rating = Math.ceil(vote / 2)
@@ -53,18 +56,14 @@ function App() {
 
     // pusho le stelle in un array
     for (let i = 0; i < rating; i++) {
-      stars.push(<span key={i} className="ratingStar">★</span>)
+      stars.push(<span key={ i } className="ratingStar">★</span>)
     }
     return stars
   }
 
   return (
     <>
-      <h1>Boolflix</h1>
-      <form onSubmit={ handleSubmit }>
-        <input type="text" value={ searchBar } placeholder="type a movie or a series" onChange={ handleSearch } />
-        <button type="submit">search</button>
-      </form>
+      <AppHeader searchBar={ searchBar } onSearchChange={ handleSearch } onSubmit={ handleSubmit } />
 
       <ul>
         { results.map(result =>
