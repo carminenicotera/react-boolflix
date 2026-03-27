@@ -44,10 +44,23 @@ function App() {
       })
   }
 
+
+  function addStars(vote) {
+    // calcolo quante stelle vanno inserite
+    const rating = Math.ceil(vote / 2)
+    const stars = []
+
+    // pusho le stelle in un array
+    for(let i = 0; i < rating; i++){
+      stars.push(<span>★</span>)
+    }
+    return stars
+  }
+
   return (
     <>
       <h1>Boolflix</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={ handleSubmit }>
         <input type="text" value={ searchBar } placeholder="type a movie or a series" onChange={ handleSearch } />
         <button type="submit">search</button>
       </form>
@@ -61,7 +74,7 @@ function App() {
             <div>Titolo originale:{ result.original_title || result.original_name }</div>
             {/* Se la lingua è presente nell'oggetto flags mostra la bandiera altrimenti mostra solo le iniziali della lingua */ }
             Lingua:{ flags[result.original_language] ? (<img className="flagImage" src={ flags[result.original_language] } alt="language" />) : (<span> { result.original_language }</span>) }
-            <div>Voto:{ result.vote_average }</div>
+            <div>Voto:{ addStars(result.vote_average) }</div>
           </li>) }
       </ul>
     </>
