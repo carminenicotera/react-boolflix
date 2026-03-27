@@ -27,7 +27,8 @@ function App() {
   }
 
   // Al clic eseguo due chiamate per film e serie
-  function handleButton() {
+  function handleSubmit(e) {
+    e.preventDefault()
 
     axios.get(`${api_url}/3/search/movie?api_key=${API_KEY}&query=${searchBar}`)
       .then(resMovie => {
@@ -46,14 +47,16 @@ function App() {
   return (
     <>
       <h1>Boolflix</h1>
-      <input type="text" value={ searchBar } placeholder="type a movie or a series" onChange={ handleSearch } />
-      <button onClick={ handleButton }>search</button>
+      <form onSubmit={handleSubmit}>
+        <input type="text" value={ searchBar } placeholder="type a movie or a series" onChange={ handleSearch } />
+        <button type="submit">search</button>
+      </form>
 
       <ul>
         { results.map(result =>
           <li key={ result.id }>
-            <img src={`${image_url}${image_size}${result.poster_path}`} alt="movie poster" />
-            {/* uso .title e .original:title per i film e .name e .original_name per le serie tv */}
+            <img src={ `${image_url}${image_size}${result.poster_path}` } alt="movie poster" />
+            {/* uso .title e .original:title per i film e .name e .original_name per le serie tv */ }
             <div>Titolo:{ result.title || result.name }</div>
             <div>Titolo originale:{ result.original_title || result.original_name }</div>
             {/* Se la lingua è presente nell'oggetto flags mostra la bandiera altrimenti mostra solo le iniziali della lingua */ }
