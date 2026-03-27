@@ -52,7 +52,7 @@ function App() {
 
     // pusho le stelle in un array
     for(let i = 0; i < rating; i++){
-      stars.push(<span>★</span>)
+      stars.push(<span className="ratingStar">★</span>)
     }
     return stars
   }
