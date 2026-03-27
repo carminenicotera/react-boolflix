@@ -26,24 +26,25 @@ function App() {
     setSearcBar(e.target.value)
   }
 
-  // Al clic eseguo due chiamate per film e serie
+  function fetchMovies() {
+    return axios.get(`${api_url}/3/search/movie?api_key=${API_KEY}&query=${searchBar}`)
+  }
+
+  function fetchSeries() {
+    return axios.get(`${api_url}/3/search/tv?api_key=${API_KEY}&query=${searchBar}`)
+  }
+
   function handleSubmit(e) {
     e.preventDefault()
 
-    axios.get(`${api_url}/3/search/movie?api_key=${API_KEY}&query=${searchBar}`)
-      .then(resMovie => {
-        const movieFound = resMovie.data.results
+    Promise.all([fetchMovies(), fetchSeries()])
+      .then(([resMovies, resSeries]) => {
+        const movies = resMovies.data.results;
+        const series = resSeries.data.results;
 
-        axios.get(`${api_url}/3/search/tv?api_key=${API_KEY}&query=${searchBar}`)
-          .then(resTv => {
-            const tvFound = resTv.data.results
-
-            // Utilizzo lo spread operator per estrarre gli elementi dai due array ricevuti dalle API e inserirli in un nuovo array
-            setResults([...movieFound, ...tvFound])
-          })
+        setResults([...movies, ...series])
       })
   }
-
 
   function addStars(vote) {
     // calcolo quante stelle vanno inserite
@@ -51,8 +52,8 @@ function App() {
     const stars = []
 
     // pusho le stelle in un array
-    for(let i = 0; i < rating; i++){
-      stars.push(<span className="ratingStar">★</span>)
+    for (let i = 0; i < rating; i++) {
+      stars.push(<span key={i} className="ratingStar">★</span>)
     }
     return stars
   }
